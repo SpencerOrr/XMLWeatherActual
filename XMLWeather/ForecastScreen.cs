@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+
+namespace XMLWeather
+{
+    public partial class ForecastScreen : UserControl
+    {
+
+        List<PictureBox> pictureBoxes = new List<PictureBox>();
+
+        public ForecastScreen()
+        {
+            InitializeComponent();
+
+            pictureBoxes.Add(pictureBox2);
+            pictureBoxes.Add(pictureBox3);
+            pictureBoxes.Add(pictureBox4);
+            pictureBoxes.Add(pictureBox5);
+            pictureBoxes.Add(pictureBox6);
+            pictureBoxes.Add(pictureBox7);
+            displayForecast();
+        }
+
+        public void displayForecast()
+        {
+
+            // Show second day's forecast (index 1)
+            date1.Text = Form1.days[1].date;
+            deg1.Text = $"Low: {Form1.days[1].tempLow}°C";
+
+            date2.Text = Form1.days[2].date;
+            deg2.Text = $"Low: {Form1.days[2].tempLow}°C";
+
+            date3.Text = Form1.days[3].date;
+            deg3.Text = $"Low: {Form1.days[3].tempLow}°C";
+
+            date4.Text = Form1.days[4].date;
+            deg4.Text = $"Low: {Form1.days[4].tempLow}°C";
+
+            date5.Text = Form1.days[5].date;
+            deg5.Text = $"Low: {Form1.days[5].tempLow}°C";
+
+            date6.Text = Form1.days[6].date;
+            deg6.Text = $"Low: {Form1.days[6].tempLow}°C";
+
+
+            for (int i = 0; i < 7; i++)
+            {
+                int weatherValue = Convert.ToInt32(Form1.days[i].icon);
+
+                if (weatherValue >= 200 && weatherValue < 300) pictureBoxes[i].Image = Properties.Resources.Thunderstorm;
+                else if (weatherValue >= 300 && weatherValue < 400 || weatherValue >= 520 && weatherValue < 532) pictureBoxes[i].Image = Properties.Resources.ShowerRain;
+                else if (weatherValue >= 500 && weatherValue < 505) pictureBoxes[i].Image = Properties.Resources.Raining;
+                else if (weatherValue >= 600 && weatherValue < 623 || weatherValue == 511) pictureBoxes[i].Image = Properties.Resources.Snow;
+                else if (weatherValue >= 701 && weatherValue < 782) pictureBoxes[i].Image = Properties.Resources.Mist;
+                else if (weatherValue == 800) pictureBoxes[i].Image = Properties.Resources.FullSun;
+                else if (weatherValue == 801) pictureBoxes[i].Image = Properties.Resources.CloudySun;
+                else if (weatherValue == 802) pictureBoxes[i].Image = Properties.Resources.FullCloud;
+                else if (weatherValue == 803) pictureBoxes[i].Image = Properties.Resources.BrokenClouds;
+            }
+
+
+
+        }
+        private void ForecastScreen_Paint(object sender, PaintEventArgs e)
+        {
+            cityTextbox.BackColor = System.Drawing.ColorTranslator.FromHtml("#fdeee1");
+
+            Graphics g = e.Graphics;
+
+
+            // Rectangle properties
+            int rectWidth = 225;
+            int rectHeight = 40;
+            int spacing = 10;
+            int totalHeight = (rectHeight * 6) + (spacing * 5);
+            int startX = (this.Width - rectWidth) / 2;
+            int startY = (this.Height - totalHeight) / 2;
+
+            SolidBrush brush = new SolidBrush(ColorTranslator.FromHtml("#d9d5d4")); // semi-transparent white
+
+            for (int i = 0; i < 6; i++)
+            {
+                Rectangle rect = new Rectangle(startX, startY + i * (rectHeight + spacing), rectWidth, rectHeight);
+                g.FillRectangle(brush, rect);
+            }
+
+            brush.Dispose();
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+
+            CurrentScreen cs = new CurrentScreen();
+            f.Controls.Add(cs);
+        }
+
+    }
+}
