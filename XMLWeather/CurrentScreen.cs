@@ -39,7 +39,7 @@ namespace XMLWeather
             else if (weatherValue == 800) weatherBox.Image = Properties.Resources.FullSun;
             else if (weatherValue == 801) weatherBox.Image = Properties.Resources.CloudySun;
             else if (weatherValue == 802) weatherBox.Image = Properties.Resources.FullCloud;
-            else if (weatherValue == 803 || weatherValue == 804) weatherBox.Image = Properties.Resources.BrokenClouds;
+            else if (weatherValue == 803 || weatherValue == 804) weatherBox.Image = Properties.Resources.BrokenClouds;  
 
         }
         private void CurrentScreen_Paint(object sender, PaintEventArgs e)
