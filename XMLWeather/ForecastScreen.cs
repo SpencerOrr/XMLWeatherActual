@@ -34,6 +34,11 @@ namespace XMLWeather
         // Displays the 6-day weather forecast
         public void displayForecast()
         {
+            if (Form1.days.Count < 7)
+            {
+                MessageBox.Show("Incorrect city input. Please try another city.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             // Set date and low temperature text for each day
             date1.Text = Form1.days[1].date;
             deg1.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[1].tempLow))}°C";
@@ -115,5 +120,44 @@ namespace XMLWeather
             CurrentScreen cs = new CurrentScreen(); // Create current weather screen
             f.Controls.Add(cs); // Add it to the form
         }
+
+private void pictureBox1_Click(object sender, EventArgs e)
+{
+    string previousCity = Form1.currentCity; // Save current city
+    string newCity = cityTextbox.Text.Trim(); // Get new city name from input
+
+    try
+    {
+        Form1.currentCity = newCity;
+
+        // Reload weather data
+        Form1.days.Clear();
+        Form1 f = (Form1)this.FindForm();
+        f.ExtractForecast();
+        f.ExtractCurrent();
+
+        // Ensure enough data is available
+        if (Form1.days.Count < 7)
+        {
+            throw new Exception("Incomplete weather data.");
+        }
+
+        // Refresh the ForecastScreen
+        f.Controls.Clear();
+        ForecastScreen fs = new ForecastScreen();
+        f.Controls.Add(fs);
+    }
+    catch (Exception)
+    {
+        // Restore previous city and show error
+        Form1.currentCity = previousCity;
+        cityTextbox.Text = "ERROR";
+        MessageBox.Show("Could not load data for the entered city. Please check the name and try again.", 
+                        "City Not Found", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Warning);
+    }
+}
+
     }
 }

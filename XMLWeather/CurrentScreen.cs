@@ -64,6 +64,11 @@ namespace XMLWeather
         // Handles click event to switch to the forecast screen
         private void forecastLabel_Click(object sender, EventArgs e)
         {
+            if (Form1.days.Count < 7)
+            {
+                MessageBox.Show("Incorrect city input. Please try another city.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             Form f = this.FindForm(); // Get current form
             f.Controls.Remove(this); // Remove current screen
 
@@ -74,32 +79,42 @@ namespace XMLWeather
         // Handles the click event for changing the city
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            string previousCity = Form1.currentCity; // Save current city in case of error
-            string newCity = cityTextbox.Text; // Get new city from user input
+            string previousCity = Form1.currentCity; // Save current city
+            string newCity = cityTextbox.Text.Trim(); // Get new city name from input
 
             try
             {
-                Form1.currentCity = newCity; // Set new city
+                Form1.currentCity = newCity;
 
                 // Reload weather data
-                Form1.days.Clear(); // Clear previous data
+                Form1.days.Clear();
                 Form1 f = (Form1)this.FindForm();
-                f.ExtractForecast(); // Load forecast data
-                f.ExtractCurrent();  // Load current data
+                f.ExtractForecast();
+                f.ExtractCurrent();
 
-                // Refresh screen to reflect new city data
+                // Ensure enough data is available
+                if (Form1.days.Count < 7)
+                {
+                    throw new Exception("Incomplete weather data.");
+                }
+
+                // Refresh the CurrentScreen
                 f.Controls.Clear();
                 CurrentScreen cs = new CurrentScreen();
                 f.Controls.Add(cs);
             }
             catch (Exception)
             {
-                // If error occurs, revert city and display error message
+                // Restore previous city and show error
                 Form1.currentCity = previousCity;
                 cityTextbox.Text = "ERROR";
-                return;
+                MessageBox.Show("Could not load data for the entered city. Please check the name and try again.",
+                                "City Not Found",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
             }
         }
     }
-}
+    }
+
 
