@@ -36,7 +36,6 @@
             this.forecastLabel = new System.Windows.Forms.Label();
             this.conditionOutput = new System.Windows.Forms.Label();
             this.cityTextbox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tommorowLabel = new System.Windows.Forms.Label();
             this.countryLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -137,17 +136,6 @@
             this.cityTextbox.Size = new System.Drawing.Size(333, 22);
             this.cityTextbox.TabIndex = 45;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(163, 405);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 59);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "°C";
-            // 
             // tommorowLabel
             // 
             this.tommorowLabel.AutoSize = true;
@@ -214,7 +202,6 @@
             this.Controls.Add(this.countryLabel);
             this.Controls.Add(this.tommorowLabel);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cityTextbox);
             this.Controls.Add(this.conditionOutput);
@@ -244,7 +231,6 @@
         private System.Windows.Forms.Label conditionOutput;
         private System.Windows.Forms.TextBox cityTextbox;
         private System.Windows.Forms.Label currentTempOutput;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label tommorowLabel;
         private System.Windows.Forms.Label countryLabel;

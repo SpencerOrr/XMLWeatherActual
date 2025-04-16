@@ -12,49 +12,59 @@ namespace XMLWeather
 {
     public partial class ForecastScreen : UserControl
     {
-
+        // List to hold all the PictureBoxes used for weather icons
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
         public ForecastScreen()
         {
             InitializeComponent();
 
+            // Add each forecast day's PictureBox to the list
             pictureBoxes.Add(pictureBox2);
             pictureBoxes.Add(pictureBox3);
             pictureBoxes.Add(pictureBox4);
             pictureBoxes.Add(pictureBox5);
             pictureBoxes.Add(pictureBox6);
             pictureBoxes.Add(pictureBox7);
+
+            // Display the forecast data when the screen is created
             displayForecast();
         }
 
+        // Displays the 6-day weather forecast
         public void displayForecast()
         {
-
-            // Show second day's forecast (index 1)
+            // Set date and low temperature text for each day
             date1.Text = Form1.days[1].date;
-            deg1.Text = $"Low: {Form1.days[1].tempLow}°C";
+            deg1.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[1].tempLow))}°C";
+            label2.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[1].tempHigh))}°C";
 
             date2.Text = Form1.days[2].date;
-            deg2.Text = $"Low: {Form1.days[2].tempLow}°C";
+            deg2.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[2].tempLow))}°C";
+            label3.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[2].tempHigh))}°C";
 
             date3.Text = Form1.days[3].date;
-            deg3.Text = $"Low: {Form1.days[3].tempLow}°C";
+            deg3.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[3].tempLow))}°C";
+            label4.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[3].tempHigh))}°C";
 
             date4.Text = Form1.days[4].date;
-            deg4.Text = $"Low: {Form1.days[4].tempLow}°C";
+            deg4.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[4].tempLow))}°C";
+            label5.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[4].tempHigh))}°C";
 
             date5.Text = Form1.days[5].date;
-            deg5.Text = $"Low: {Form1.days[5].tempLow}°C";
+            deg5.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[5].tempLow))}°C";
+            label6.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[5].tempHigh))}°C";
 
             date6.Text = Form1.days[6].date;
-            deg6.Text = $"Low: {Form1.days[6].tempLow}°C";
+            deg6.Text = $"L: {Math.Round(Convert.ToDouble(Form1.days[6].tempLow))}°C";
+            label7.Text = $"H: {Math.Round(Convert.ToDouble(Form1.days[6].tempHigh))}°C";
 
-
-            for (int i = 0; i < 7; i++)
+            // Loop through all 6 days to assign the correct weather icons
+            for (int i = 1; i < 6; i++)
             {
-                int weatherValue = Convert.ToInt32(Form1.days[i].icon);
+                int weatherValue = Convert.ToInt32(Form1.days[i].icon); // Get weather condition code
 
+                // Match icon to weather condition code
                 if (weatherValue >= 200 && weatherValue < 300) pictureBoxes[i].Image = Properties.Resources.Thunderstorm;
                 else if (weatherValue >= 300 && weatherValue < 400 || weatherValue >= 520 && weatherValue < 532) pictureBoxes[i].Image = Properties.Resources.ShowerRain;
                 else if (weatherValue >= 500 && weatherValue < 505) pictureBoxes[i].Image = Properties.Resources.Raining;
@@ -65,16 +75,15 @@ namespace XMLWeather
                 else if (weatherValue == 802) pictureBoxes[i].Image = Properties.Resources.FullCloud;
                 else if (weatherValue == 803) pictureBoxes[i].Image = Properties.Resources.BrokenClouds;
             }
-
-
-
         }
+
+        // Paint event to draw a custom background with rectangles
         private void ForecastScreen_Paint(object sender, PaintEventArgs e)
         {
+            // Set background color of the city textbox
             cityTextbox.BackColor = System.Drawing.ColorTranslator.FromHtml("#fdeee1");
 
             Graphics g = e.Graphics;
-
 
             // Rectangle properties
             int rectWidth = 225;
@@ -84,26 +93,27 @@ namespace XMLWeather
             int startX = (this.Width - rectWidth) / 2;
             int startY = (this.Height - totalHeight) / 2;
 
-            SolidBrush brush = new SolidBrush(ColorTranslator.FromHtml("#d9d5d4")); // semi-transparent white
+            // Set brush color
+            SolidBrush brush = new SolidBrush(ColorTranslator.FromHtml("#d9d5d4")); // soft gray tone
 
+            // Draw 6 forecast rectangles vertically spaced
             for (int i = 0; i < 6; i++)
             {
                 Rectangle rect = new Rectangle(startX, startY + i * (rectHeight + spacing), rectWidth, rectHeight);
                 g.FillRectangle(brush, rect);
             }
 
-            brush.Dispose();
-
+            brush.Dispose(); // Clean up brush
         }
 
+        // Event handler for label click to switch back to current weather screen
         private void label1_Click(object sender, EventArgs e)
         {
-            Form f = this.FindForm();
-            f.Controls.Remove(this);
+            Form f = this.FindForm(); // Get the current form
+            f.Controls.Remove(this);  // Remove forecast screen
 
-            CurrentScreen cs = new CurrentScreen();
-            f.Controls.Add(cs);
+            CurrentScreen cs = new CurrentScreen(); // Create current weather screen
+            f.Controls.Add(cs); // Add it to the form
         }
-
     }
 }
